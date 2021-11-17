@@ -6,3 +6,7 @@
 - Basic formatting syntax
 - Main Github commands
 - Concept of branches 
+###### Python:
+- Data types
+- Loops
+- Conditions
