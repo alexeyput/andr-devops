@@ -1,7 +1,7 @@
 # Andersen DevOps online course 11-12.2021
 
 ## About me
-Higher Education, graduated from Belarusian State University of Informatics and Radioelectronics. Work for a small IT company as an engineer. Interested in virtualisation and cloud technologies.
+Higher Education, graduated from Belarusian State University of Informatics and Radioelectronics. Work for a small IT company as an engineer. Interested in virtualization and cloud technologies.
 
 ## Why the training is interesting for me:
 - There are a few trainings like this in our country;
@@ -9,7 +9,7 @@ Higher Education, graduated from Belarusian State University of Informatics and 
 - New experience in communication inside an IT crew.
 
 ## My expectations:
-- Deepen and get new knowledge ;
+- Deepen and get new knowledge;
 - Ability to create pipelines as well as rolling out an infrastructure and deploying apps from scratch;
 - Adequate attitude on the part of mentors.
 
