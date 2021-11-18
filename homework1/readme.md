@@ -1,4 +1,4 @@
-# What I've learned today.
+# What I've learnt today.
 
 ## 17.11.2021
 ###### Github:
@@ -13,3 +13,4 @@
 ## 18.11.2021
 ###### Python:
 - Modules
+- Packages, package managers
