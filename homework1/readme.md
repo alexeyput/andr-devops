@@ -10,3 +10,6 @@
 - Data types
 - Loops
 - Conditions
+## 18.11.2021
+###### Python:
+- Modules
