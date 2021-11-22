@@ -1,0 +1,134 @@
+---
+# Update Linux (apt update & apt upgrade)
+- name: Update Debian Linux
+  hosts: debian10_server
+  become: true
+  become_method: sudo
+  vars:
+    ansible_python_interpreter: /usr/bin/python
+  tasks:
+    - name: Update apt-get repo and cache
+      apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
+    - name: Upgrade all apt packages
+      apt: upgrade=dist force_apt_get=yes
+
+# Install necessary packages (python, git, etc.)
+- name: Install packages
+  hosts: debian10_server
+  become: true
+  vars:
+     ansible_python_interpreter: /usr/bin/python
+  tasks:
+    - name: Install Packages
+      apt:
+        pkg:
+          - python3
+          - python3-pip
+          - python3-flask
+          - python-virtualenv
+          - git
+        state: latest
+        update_cache: true
+
+- name: Copy application file(s) to the server
+  hosts: debian10_server
+  become: true
+  tasks:
+    # Create app folder
+    - name: Ensure /opt/{{application_name}} dir exists
+      file:
+         path=/opt/{{application_name}}/templates
+         state=directory
+      # Clone full git repo to /tmp
+    - name: Clone git to the /tmp folder
+      git:
+         repo: "{{ git_repository_url }}"
+         dest: /tmp/{{application_name}}
+
+###################################################
+#   Doesn't work for some reason (copy and remote_src conflict). Comment out for possible further investigation
+#
+#      - name: Copy app-file in place
+#        copy:
+#          src : "{{ item.src }}"
+#          dest : "{{ item.dest }}"
+#        remote_src: yes
+#        loop:
+#            - { src: '/tmp/my-app/flask-app/my-app.py', dest: '/opt/my-app/my-app.py' }
+#            - { src: '/tmp/my-app/flask-app/templates/index.html', dest: '/opt/my-app/templates/index.html' }
+#        become: true
+###################################################
+
+    # Copy app files from /tmp
+    - name: Copy app-file in place
+      copy:
+        src: /tmp/{{application_name}}/flask-app/{{application_name}}.py
+        dest: /opt/{{application_name}}
+        remote_src : true
+
+    - name: copy python file
+      copy:
+        src: /tmp/{{application_name}}/flask-app/templates/index.html
+        dest: /opt/{{application_name}}/templates/index.html
+        remote_src : true
+
+# Create Linux user and group
+- name: Create user for the applicaton service
+  hosts: debian10_server
+  become: true
+  tasks:
+    - name: create "{{web_group_name}}" group
+      group:
+        name:  "{{web_group_name}}"
+        state: present
+    - name: create "{{web_user_name}}" user
+      user:
+        name: "{{web_user_name}}"
+        groups: "{{web_group_name}}"
+        shell: /sbin/nologin
+        append: yes
+        state: present
+        create_home: no
+
+# Create systemctl {{application_name}} service
+- name: Create and start systemctl service
+  hosts: debian10_server
+  become: true
+  become_method: sudo
+  tasks:
+    - name: copy systemctl service file to remote server
+      template:
+        src: ./systemctl/{{application_name}}.service
+        dest:  /etc/systemd/system
+      notify: start app-service
+  handlers:
+    - name: start app-service
+      service:
+        daemon_reload: yes
+        name: "{{application_name}}"
+        state: restarted
+        enabled: yes
+
+# Check if  web server is up and running (200 response code assumed)
+- name: Check whether the WEB server works
+  hosts: debian10_server
+  tasks:
+    - name: Confirm that 200 OK response is returned
+      uri:
+        url: "http://{{ ansible_host }}:{{flask_port}}"
+        status_code: 200
+
+    - name: Print web server address
+      debug:
+        msg: "Web server address:   {{ ansible_host }}:{{flask_port}} "
+
+# Delete git repo clone from /tmp
+- name: Cleanup
+  hosts: debian10_server
+  become: true
+  tasks:
+    - name: delete repo
+      file:
+        state: absent
+        path: /tmp/{{application_name}}
+

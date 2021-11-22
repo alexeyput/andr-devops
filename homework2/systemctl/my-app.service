@@ -1,0 +1,19 @@
+[Unit]
+Description=Service for flask app (Homework 2)
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+#Type=forking
+Type=simple
+Restart=always
+RestartSec=1
+User=web-server
+#ExecStart=/usr/bin/python3 /opt/my-app/my-app.py
+#WorkingDirectory=/opt/my-app
+# Environment=FLASK_APP=/opt/my-app/my-app.py
+Environment=FLASK_APP=/opt/{{application_name}}/{{application_name}}.py
+ExecStart=flask run --host=0.0.0.0 --port={{flask_port}}
+
+[Install]
+WantedBy=multi-user.target
