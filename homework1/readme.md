@@ -14,3 +14,21 @@
 ###### Python:
 - Modules
 - Packages, package managers
+###### DevOps:
+- The main idea
+- DevOps Engineer main responsibilities
+ ###### Onter:
+ - Application lifecycle
+ - Application development approaches
+## 19.11.2021
+###### DevOps:
+- CI/CD - definitions, steps
+###### Ansible:
+- Playbook
+- Variables
+- Git integration
+###### Python:
+- Flask
+## 20.11.2021
+###### Python:
+- Flask
