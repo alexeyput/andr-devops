@@ -9,22 +9,22 @@ Sample web page which shows your IP address, Hostname and OS
 
 ## Prerequisities (for Debian 10. May vary for your debian-based linux distro)
 - Generate and copy keys with
-`
-ssh-keygen\
-ssh-copy-id
+`  
+ssh-keygen  
+ssh-copy-id  
 `
 - Change "PermitRootLogin" to  "yes" in 
-`
-/etc/ssh/sshd_config
+`  
+/etc/ssh/sshd_config  
 `
 and restart sshd sevice
-`
-systemctl daemon-reload\
-systemctl restart sshd
-`
-- Comment out CD/DVD repositories in
-`
-/etc/apt/sources.list
+`  
+systemctl daemon-reload  
+systemctl restart sshd  
+`  
+- Comment out CD/DVD repositories in  
+`  
+/etc/apt/sources.list  
 `
 
 ## QuickStart
