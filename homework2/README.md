@@ -13,8 +13,12 @@ Sample web page which shows your IP address, Hostname and OS
 ssh-copy-id`
 - Change "PermitRootLogin" to  "yes" in 
 `/etc/ssh/sshd_config`
+and restart sshd sevice
+`<br /> systemctl daemon-reload <br />
+systemctl restart sshd`
 - Comment out CD/DVD repositories in
 `/etc/apt/sources.list`
+
 ## QuickStart
 Adjust configuration parameters in group_vars/debian10_server.yaml file:
 
@@ -42,9 +46,10 @@ The main steps are the following:
 - Test web server accessibility
 
 ## Known issues
-To be done
+To be done in case of discovering
 
-## To be done
+## Possible improvements
+- Create initial configuration shell script for performing prerequisite tasks (RSA keys, config files changing and so on).
 - Create Virtual Environment
 
 ## Info to take into consideration
