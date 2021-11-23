@@ -8,7 +8,7 @@ _**To Create python3+flask application and deploy it using ansible.**_
 Sample web page which shows your IP address, Hostname and OS
 
 ## Prerequisities (for Debian 10. May vary for your debian-based linux distro)
-- Generate and copy keys with
+- Generate and copy keys with  
 `ssh-keygen`  
 `ssh-copy-id`
 
