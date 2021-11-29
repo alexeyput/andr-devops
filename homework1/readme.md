@@ -32,3 +32,8 @@
 ## 20.11.2021
 ###### Python:
 - Flask
+## 23-26.11.2021
+- Bash scripting
+## 28-30.11.2021
+- Golang essentials
+- Telegram bot basics
