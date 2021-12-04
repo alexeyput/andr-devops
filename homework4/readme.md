@@ -47,15 +47,21 @@ go get github.com/Syfaro/telegram-bot-api
 ```
 go build gethw_tg.go
 ```
-2. Copy files
+2. Create application folder
 ```
-sudo cp ./gethw-tg /opt/gethw-tg
-sudo cp ./gethw-tg.yaml /opt/gethw-tg
-sudo cp ./gethw-tg.service /etc/systemd/system
+mkdir -p /opt/gethw-tg
 ```
-3. ############### Create user for the service
+2. Copy files and set privileges
 ```
-useradd gethw_tg
+sudo cp -rf ./gethw-tg /opt/gethw-tg
+sudo cp -rf ./gethw-tg.yaml /opt/gethw-tg
+sudo cp -rf ./gethw-tg.service /etc/systemd/system
+chown -R gethw-tg:gethw-tg /opt/gethw-tg
+chmod -R 775 /opt/gethw-tg
+```
+3. Create user for the service
+```
+useradd -M  -s /usr/sbin/nologin gethw-tg
 ```
 4. Start service and enable autostart
 ```
@@ -63,6 +69,11 @@ sudo systemctl daemon-reload
 sudo systemctl start gethw-tg start
 sudo systemctl enable gethw-tg 
 ```
+Alternatively you can start installation script. The script doesn't check performing commands so do it manually.
+```
+sudo ./gethw-install.sh
+```
+
 ##  Telegram Bot commands list
 ```
 /git   -  Get git repository address
