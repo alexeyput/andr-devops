@@ -1,0 +1,19 @@
+[Unit]
+Description=Telegram Bot for checking homework (Homework 4)
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+#Type=forking
+Type=simple
+User=gethw-tg
+Group=gethw-tg
+Restart=always
+RestartSec=1
+WorkingDirectory=/opt/gethw-tg
+Environment=TG_CONFIG_FILE=/opt/gethw-tg/gethw-tg.yaml
+Environment=TG_TOKEN=2111247129:AAGHgHlvyXNkQaldI29s8QQPhyZQOjwF2dE
+ExecStart=/opt/gethw-tg/gethw-tg
+
+[Install]
+WantedBy=multi-user.target
