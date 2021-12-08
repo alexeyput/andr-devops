@@ -12,7 +12,7 @@ Restart=always
 RestartSec=1
 WorkingDirectory=/opt/gethw-tg
 Environment=TG_CONFIG_FILE=/opt/gethw-tg/gethw-tg.yaml
-Environment=TG_TOKEN=2111247129:AAGHgHlvyXNkQaldI29s8QQPhyZQOjwF2dE
+Environment=TG_TOKEN=<insert-your-telegtam-token-here>
 ExecStart=/opt/gethw-tg/gethw-tg
 
 [Install]
