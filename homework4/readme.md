@@ -51,7 +51,11 @@ go build gethw_tg.go
 ```
 mkdir -p /opt/gethw-tg
 ```
-2. Copy files and set privileges
+3. Insert Telegtam token into 
+```
+gethw-install.sh
+``` 
+4. Copy files and set privileges
 ```
 sudo cp -rf ./gethw-tg /opt/gethw-tg
 sudo cp -rf ./gethw-tg.yaml /opt/gethw-tg
@@ -59,11 +63,11 @@ sudo cp -rf ./gethw-tg.service /etc/systemd/system
 chown -R gethw-tg:gethw-tg /opt/gethw-tg
 chmod -R 775 /opt/gethw-tg
 ```
-3. Create user for the service
+5. Create user for the service
 ```
 useradd -M  -s /usr/sbin/nologin gethw-tg
 ```
-4. Start service and enable autostart
+6. Start service and enable autostart
 ```
 sudo systemctl daemon-reload
 sudo systemctl start gethw-tg start
