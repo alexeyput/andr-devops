@@ -28,6 +28,7 @@
 - Variables
 - Git integration
 ###### Python:
+- Basic syntax
 - Flask
 ## 20.11.2021
 ###### Python:
@@ -37,3 +38,33 @@
 ## 28-30.11.2021
 - Golang essentials
 - Telegram bot basics
+## 01-06.12.2021
+- Docker and containerized applications
+- Dockerfile syntax
+- Docker-compose
+- Virtualization
+- Bash scripting
+## 06.12.2021
+- Cloud services
+- Private and public cloud
+## 07.12.2021
+###### AWS:
+- VPC
+- CIDR, Subnets, Internet Gatewey
+- EC2
+- Cloudformation
+## 08.12.2021
+###### AWS:
+- EC2
+- Routing
+- Security Groups, NACLs
+- Cloudformation
+## 09.12.2021
+###### AWS:
+- VPC Direct connect Gateway, NAT, VPN
+## 10.12.2021
+###### AWS:
+- Cloudformation
+###### Asure:
+- Download a Windows VHD from Azure 
+- Create a Windows VM from a specialized VHD in the Azure portal

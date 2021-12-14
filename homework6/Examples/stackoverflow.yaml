@@ -1,0 +1,63 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Example
+Resources:
+  myInternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: "Name"
+          Value: "a_gateway"
+
+  myVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/24
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      InstanceTenancy: default
+
+  # Attach Internet gateway to created VPC
+  AttachGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId:
+        Ref: myVPC
+      InternetGatewayId:
+        Ref: myInternetGateway
+
+  # Create public routes table for VPC
+  myPublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref myVPC
+      Tags:
+        - Key: "Name"
+          Value: "public_routes"
+
+  # Create a route for the table which will forward the traffic
+  # from the gateway
+  myDefaultPublicRoute:
+    Type: AWS::EC2::Route
+    DependsOn: AttachGateway
+    Properties:
+      RouteTableId: !Ref myPublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref myInternetGateway
+
+  # Subnet within VPC which will use route table (with default route)
+  # from Internet gateway
+  mySubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: ""
+      CidrBlock: 10.0.0.0/25
+      MapPublicIpOnLaunch: true
+      VpcId:
+        Ref: myVPC
+
+  # Associate route table (which contains default route) to newly created subnet
+  myPublicRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref myPublicRouteTable
+      SubnetId: !Ref mySubnet

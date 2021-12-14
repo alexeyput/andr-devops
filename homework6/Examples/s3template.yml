@@ -1,0 +1,49 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+Description: Create an S3 Bucket, pull HTML from Github, put in bucket
+
+Parameters:
+  url:
+    Type: String
+    Description: Link to HTML to pull
+    Default: https://raw.githubusercontent.com/pmcdowell-okta/cloudformation-deploy-html/master/html/index.html
+
+  bucketname:
+    Type: String
+    Description: Name of Bucket, bucket names MUST be unique across AWS and no Upper Case characters
+
+Outputs:
+      bucketURL:
+        Value:
+          Fn::Join:
+            - ''
+            - - 'https://s3.amazonaws.com/'
+              - Fn::GetAtt:
+                    - DeploymentCustomResource
+                    - bucketname
+              - '/index.html'
+
+Resources:
+  deploytos3:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: index.handler
+      Runtime: nodejs8.10
+      CodeUri: 's3://htmlformation/lambdaDeploy.zip'
+      MemorySize: 512
+      Timeout: 300
+      Environment:
+        Variables:
+          TEST: WORKS
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - AmazonS3FullAccess
+
+  DeploymentCustomResource:
+    Type: Custom::deploytos3
+    Properties:
+      ServiceToken: !GetAtt deploytos3.Arn
+      url: !Ref url
+      bucketname: !Ref bucketname
+
+
