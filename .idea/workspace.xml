@@ -2,13 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2831a300-2aaf-4c34-b9f7-9a0438047b11" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/homework7/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/homework1/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/homework2/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/homework3/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/homework4/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/homework5/.gitignore" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/homework6/deploy.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/homework6/hw6-Infrastructure.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/homework6/hw6-Infrastructure.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

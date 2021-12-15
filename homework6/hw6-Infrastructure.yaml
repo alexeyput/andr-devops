@@ -1,7 +1,11 @@
+# aws cloudformation deploy --template-file hw6-Infrastructure.yaml --stack-name asd --capabilities CAPABILITY_NAMED_IAM
+
 Description: "Andersen Training Homework 6. AWS Cloudformation"
 
 Resources:
-# Create VPC
+########################
+#### Create VPC
+########################
   myVPC:
     Type: AWS::EC2::VPC
     Properties:
@@ -12,40 +16,71 @@ Resources:
         - Key: Name
           Value: "myVPC"
 
-# Create subnet A
-  mySubnetA:
+########################
+#### Create Subnets
+########################
+# Create Public subnet A
+  PublicSubnetA:
     Type: "AWS::EC2::Subnet"
     DependsOn: myVPC
     Properties:
       VpcId: !Ref myVPC
       AvailabilityZone: eu-central-1a
-      CidrBlock: 10.0.1.0/24
+      CidrBlock: 10.0.21.0/24
       MapPublicIpOnLaunch: true
       Tags:
         - Key: Name
-          Value: "Subnet_A"
+          Value: "Public Subnet A"
 
-# Create subnet A
-  mySubnetB:
+# Create Public subnet B
+  PublicSubnetB:
     Type: "AWS::EC2::Subnet"
     DependsOn: myVPC
     Properties:
       VpcId: !Ref myVPC
       AvailabilityZone: eu-central-1b
-      CidrBlock: 10.0.2.0/24
+      CidrBlock: 10.0.22.0/24
       MapPublicIpOnLaunch: true
       Tags:
         - Key: Name
-          Value: "Subnet_B"
+          Value: "Public Subnet B"
 
+# Create Private subnet A
+  PrivateSubnetA:
+    Type: "AWS::EC2::Subnet"
+    DependsOn: myVPC
+    Properties:
+      VpcId: !Ref myVPC
+      AvailabilityZone: eu-central-1a
+      CidrBlock: 10.0.31.0/24
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: "Private Subnet A"
+
+# Create Public subnet B
+  PrivateSubnetB:
+    Type: "AWS::EC2::Subnet"
+    DependsOn: myVPC
+    Properties:
+      VpcId: !Ref myVPC
+      AvailabilityZone: eu-central-1b
+      CidrBlock: 10.0.32.0/24
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: "Private Subnet B"
+
+########################################
+#### Create And Attach Internet Gateway
+########################################
 # Create Internet Gateway
   myInternetGateway:
     Type: AWS::EC2::InternetGateway
     Properties:
       Tags:
         - Key: "Name"
-          Value: "Internet_gateway"
-
+          Value: "Internet gateway"
 # Attach Internet Gateway to myVPC
   AttachGateway:
     Type: AWS::EC2::VPCGatewayAttachment
@@ -55,73 +90,74 @@ Resources:
       InternetGatewayId:
         Ref: myInternetGateway
 
-# Empty Route Table Creation
-  myRouteTable:
+########################################
+#### Create Routing tables
+########################################
+  # Empty Public Route Table Creation
+  publicRouteTable:
     Type: "AWS::EC2::RouteTable"
     DependsOn: myVPC
     Properties:
       VpcId: !Ref myVPC
+      Tags:
+        - Key: Name
+          Value: "Public Route Table"
 
-# Creation and Attachment of Routes for Route Table
+  # Routes creation and Attachment for Public  Route Table
   RoutesForInternetGateway:
     Type: "AWS::EC2::Route"
     DependsOn: AttachGateway
     Properties:
+      RouteTableId: !Ref publicRouteTable
       DestinationCidrBlock: 0.0.0.0/0
       GatewayId: !Ref myInternetGateway
-      RouteTableId: !Ref myRouteTable
 
-# Associate Public Route for Subnets
+  # Associate Public Route for Subnets
   RouteAssociationSubnetA:
     Type: "AWS::EC2::SubnetRouteTableAssociation"
     Properties:
-      RouteTableId: !Ref myRouteTable
-      SubnetId: !Ref mySubnetA
-
+      RouteTableId: !Ref publicRouteTable
+      SubnetId: !Ref PublicSubnetA
   RouteAssociationSubnetB:
     Type: "AWS::EC2::SubnetRouteTableAssociation"
     Properties:
-      RouteTableId: !Ref myRouteTable
-      SubnetId: !Ref mySubnetB
+      RouteTableId: !Ref publicRouteTable
+      SubnetId: !Ref PublicSubnetB
 
-# Create Ec2-A in Subnet A
-  WebAppInstanceA:
-    Type: AWS::EC2::Instance
+  # Empty Private Route Table Creation
+  privateRouteTable:
+    Type: "AWS::EC2::RouteTable"
+    DependsOn: myVPC
     Properties:
-      ImageId: ami-099ccc441b2ef41ec  # Amazon Linux 2 AMI (HVM) - Kernel 4.14
-      InstanceType: t2.micro
-      KeyName: AWS-default-key
-      SubnetId: !Ref mySubnetA
-      IamInstanceProfile: !Ref RootInstanceProfile
-      SecurityGroupIds:
-        - !Ref WebAppSecurityGroup
-      UserData:
-        Fn::Base64: !Sub |
-          #!/bin/bash
-          sudo yum update
-          sudo amazon-linux-extras install -y nginx1
-          sudo systemctl start nginx
-          echo "<html><body><h1>Ec2-A instance in Region ${AWS::Region}<h1></body></html>" > /usr/share/nginx/html/index.html
+      VpcId: !Ref myVPC
+      Tags:
+        - Key: Name
+          Value: "Private Route Table"
 
-# Create Ec2-B in Subnet B
-  WebAppInstanceB:
-    Type: AWS::EC2::Instance
+  # Routes creation and Attachment for Private  Route Table
+  RoutesForNatGateway:
+    Type: "AWS::EC2::Route"
     Properties:
-      ImageId: ami-099ccc441b2ef41ec  # Amazon Linux 2 AMI (HVM) - Kernel 4.14
-      InstanceType: t2.micro
-      KeyName: AWS-default-key
-      SubnetId: !Ref mySubnetB
-      IamInstanceProfile: !Ref RootInstanceProfile
-      SecurityGroupIds:
-        - !Ref WebAppSecurityGroup
-      UserData:
-        Fn::Base64: !Sub |
-          #!/bin/bash
-          sudo yum update
-          sudo amazon-linux-extras install -y nginx1
-          sudo systemctl start nginx
-          echo "<html><body><h1>Ec2-B instance in Region ${AWS::Region}<h1></body></html>" > /usr/share/nginx/html/index.html
+      RouteTableId:
+        Ref: privateRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId: !Ref natGateway
 
+  # Associate Private Route for Subnets
+  RouteAssociationPrivateSubnetA:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      RouteTableId: !Ref privateRouteTable
+      SubnetId: !Ref PrivateSubnetA
+  RouteAssociationPrivateSubnetB:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      RouteTableId: !Ref privateRouteTable
+      SubnetId: !Ref PrivateSubnetB
+
+########################################
+#### Create Security Groups
+########################################
 # Create Ec2 Security Group
   WebAppSecurityGroup:
     Type: AWS::EC2::SecurityGroup
@@ -138,43 +174,6 @@ Resources:
           ToPort: 22
           CidrIp: 0.0.0.0/0
 
-# Create Application Load Balancer v2
-  LoadBalancer:
-    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
-    Properties:
-      Name: WebLoadBalancer
- #     SubnetMappings:
-#        - SubnetMapping
-      Subnets:
-        - !Ref mySubnetA
-        - !Ref mySubnetB
-      Type: application
-      SecurityGroups:
-        - !Ref LoadBalancerSecurityGroup
-
-# Create Listener
-# Create Target Group
-  LoadBalancerListener:
-    Type: AWS::ElasticLoadBalancingV2::Listener
-    Properties:
-      LoadBalancerArn: !Ref LoadBalancer
-      Port: 80
-      Protocol: HTTP
-      DefaultActions:
-        - Type: forward
-          TargetGroupArn: !Ref DefaultTargetGroup
-
-  # We define a default target group here, as this is a mandatory Parameters
-  # when creating an Application Load Balancer Listener. This is not used, instead
-  # a target group is created per-service in each service template (../services/*)
-#  DefaultTargetGroup:
-#    Type: AWS::ElasticLoadBalancingV2::TargetGroup
-#    Properties:
-##      Name: !Sub ${EnvironmentName}-default
-#      VpcId: !Ref myVPC
-#      Port: 80
-#      Protocol: HTTP
-
 # Create Security Group for Load Balancer
   LoadBalancerSecurityGroup:
     Type: AWS::EC2::SecurityGroup
@@ -187,6 +186,36 @@ Resources:
           ToPort: 80
           CidrIp: 0.0.0.0/0
 
+########################################
+#### Load Balancer
+########################################
+# Create Application Load Balancer v2
+  LoadBalancer:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Name: WebLoadBalancer
+ #     SubnetMappings:
+#        - SubnetMapping
+      Subnets:
+        - !Ref PublicSubnetA
+        - !Ref PublicSubnetB
+#        - !Ref PrivateSubnetA
+#        - !Ref PrivateSubnetB
+      Type: application
+      SecurityGroups:
+        - !Ref LoadBalancerSecurityGroup
+
+# Create Listener
+  LoadBalancerListener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      LoadBalancerArn: !Ref LoadBalancer
+      Port: 80
+      Protocol: HTTP
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref DefaultTargetGroup
+
 # Create Target Groups for the Load Balancer
   DefaultTargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
@@ -196,12 +225,15 @@ Resources:
       Port: 80
       Protocol: HTTP
       Targets:
-        - Id: !Ref WebAppInstanceA
+        - Id: !Ref PrivateWebAppInstanceA
           Port: 80
-        - Id: !Ref WebAppInstanceB
+        - Id: !Ref PrivateWebAppInstanceB
           Port: 80
 
-# Create S3 IAM Role for EC2 Instances
+########################################
+#### Create S3 IAM Role for EC2 Instances
+########################################
+# Create IAM Role
   RootInstanceProfile:
     Type: AWS::IAM::InstanceProfile
     Properties:
@@ -237,23 +269,42 @@ Resources:
       Roles:
         - !Ref S3WritableRole
 
-
+########################################
+#### Create S3 IAM Role for EC2 Instances
+########################################
 # Create S3 Bucket
-  s3bucket:
+  S3Bucket:
     Type: 'AWS::S3::Bucket'
     Properties:
-      BucketName: s3bucket-aputiatov
+      BucketName: s3bucket-alexeyput
       AccessControl: PublicRead
       PublicAccessBlockConfiguration:
         BlockPublicAcls: false
         BlockPublicPolicy: false
         IgnorePublicAcls: false
         RestrictPublicBuckets: false
+  BucketPolicy:
+    Type: 'AWS::S3::BucketPolicy'
+    Properties:
+      PolicyDocument:
+        Id: MyPolicy
+        Version: 2012-10-17
+        Statement:
+          - Sid: PublicReadForGetBucketObjects
+            Effect: Allow
+            Principal: '*'
+            Action: 's3:*'
+            Resource: !Join
+              - ''
+              - - 'arn:aws:s3:::'
+                - !Ref S3Bucket
+                - /*
+      Bucket: !Ref S3Bucket
 #
-#  MyS3BucketPolicy:
+#  BucketPolicy:
 #    Type: AWS::S3::BucketPolicy
 #    Properties:
-#      Bucket: !Ref MyS3Bucket
+#      Bucket: !Ref S3Bucket
 #      PolicyDocument:
 #        Statement:
 #          -
@@ -279,41 +330,157 @@ Resources:
             Action: 's3:*'
             Resource: '*'
       RouteTableIds:
-         - !Ref myRouteTable
+         - !Ref privateRouteTable
       ServiceName: !Sub 'com.amazonaws.${AWS::Region}.s3'
       VpcId: !Ref myVPC
 
-# Outputs
+########################################
+#### Create NAT Gateway for private networks
+########################################
+  natGateway:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      AllocationId:
+        Fn::GetAtt:
+          - EIP
+          - AllocationId
+      SubnetId:
+        Ref: PublicSubnetA
+  EIP:
+    DependsOn: AttachGateway
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+
+########################################
+#### Create EC2 Images
+########################################
+  # Create Ec2-A in Public Subnet A
+  WebAppInstanceA:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-099ccc441b2ef41ec  # Amazon Linux 2 AMI (HVM) - Kernel 4.14
+      InstanceType: t2.micro
+      KeyName: AWS-default-key
+      SubnetId: !Ref PublicSubnetA
+      IamInstanceProfile: !Ref RootInstanceProfile
+      SecurityGroupIds:
+        - !Ref WebAppSecurityGroup
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          yum update
+          amazon-linux-extras install -y nginx1
+          systemctl start nginx
+          echo "<html><body><h1>Public instance Ec2-A in Region ${AWS::Region}<h1></body></html>" > /usr/share/nginx/html/index.html
+          sleep 1m
+          aws s3 cp /usr/share/nginx/html/index.html s3://s3bucket-alexeyput/publicA-index.html
+      Tags:
+        - Key: Name
+          Value: "Public Instance A"
+
+  # Create Ec2-B in Public Subnet B
+  WebAppInstanceB:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-099ccc441b2ef41ec  # Amazon Linux 2 AMI (HVM) - Kernel 4.14
+      InstanceType: t2.micro
+      KeyName: AWS-default-key
+      SubnetId: !Ref PublicSubnetB
+      IamInstanceProfile: !Ref RootInstanceProfile
+      SecurityGroupIds:
+        - !Ref WebAppSecurityGroup
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          sudo yum update
+          sudo amazon-linux-extras install -y nginx1
+          sudo systemctl start nginx
+          echo "<html><body><h1>Public instance Ec2-B in Region ${AWS::Region}<h1></body></html>" > /usr/share/nginx/html/index.html
+          sleep 1m
+          aws s3 cp /usr/share/nginx/html/index.html s3://s3bucket-alexeyput/publicB-index.html
+      Tags:
+        - Key: Name
+          Value: "Public Instance B"
+
+  # Create Ec2-A in Private Subnet A
+  PrivateWebAppInstanceA:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-099ccc441b2ef41ec  # Amazon Linux 2 AMI (HVM) - Kernel 4.14
+      InstanceType: t2.micro
+      KeyName: AWS-default-key
+      SubnetId: !Ref PrivateSubnetA
+      IamInstanceProfile: !Ref RootInstanceProfile
+      SecurityGroupIds:
+        - !Ref WebAppSecurityGroup
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          yum update
+          amazon-linux-extras install -y nginx1
+          systemctl start nginx
+          echo "<html><body><h1>Private instance Ec2-A in Region ${AWS::Region}<h1></body></html>" > /usr/share/nginx/html/index.html
+          sleep 1m
+          aws s3 cp /usr/share/nginx/html/index.html s3://s3bucket-alexeyput/privateA-index.html
+      Tags:
+        - Key: Name
+          Value: "Private Instance A"
+
+  # Create Ec2-B in Private Subnet B
+  PrivateWebAppInstanceB:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-099ccc441b2ef41ec  # Amazon Linux 2 AMI (HVM) - Kernel 4.14
+      InstanceType: t2.micro
+      KeyName: AWS-default-key
+      SubnetId: !Ref PrivateSubnetB
+      IamInstanceProfile: !Ref RootInstanceProfile
+      SecurityGroupIds:
+        - !Ref WebAppSecurityGroup
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          sudo yum update
+          sudo amazon-linux-extras install -y nginx1
+          sudo systemctl start nginx
+          echo "<html><body><h1>Private instance Ec2-B in Region ${AWS::Region}<h1></body></html>" > /usr/share/nginx/html/index.html
+          sleep 1m
+          aws s3 cp /usr/share/nginx/html/index.html s3://s3bucket-alexeyput/privateB-index.html
+      Tags:
+        - Key: Name
+          Value: "Private Instance B"
+
+########################################
+#### Output Section
+########################################
 Outputs:
   PublicIpA:
     Description: EC2-A Instance Public Ip
     Value: !GetAtt WebAppInstanceA.PublicIp
+
   PublicIpB:
     Description: EC2-B Instance Public Ip
     Value: !GetAtt WebAppInstanceB.PublicIp
 
-  LoadBalancer:
-    Description: A reference to the Application Load Balancer
-    Value: !Ref LoadBalancer
-
   LoadBalancerUrl:
-    Description: The URL of the ALB
+    Description: The URL of the Application Load Balancer
     Value: !GetAtt LoadBalancer.DNSName
 
-  Listener:
-    Description: A reference to a port 80 listener
-    Value: !Ref LoadBalancerListener
-
-  Endpoint:
-    Description: 'The VPC endpoint to S3.'
-    Value: !Ref S3Endpoint
-
-
-
-
-# Create Bastion Host
-# Create IAM Role for S3
-# Create Access Gateway
 # Change nginx config file to proxy
-# Create NAT gateway
 # Setup ssh agent for access to the
+
+# Static website hosting enable
+# Bucket policy:
+#  {
+#    "Version": "2012-10-17",
+#    "Statement": [
+#      {
+#        "Sid": "PublicReadGetObject",
+#        "Effect": "Allow",
+#        "Principal": "*",
+#        "Action": "s3:GetObject",
+#        "Resource": "arn:aws:s3:::s3bucket-alexeyput/*"
+#      }
+#    ]
+#  }
