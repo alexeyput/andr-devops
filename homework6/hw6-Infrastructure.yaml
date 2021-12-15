@@ -92,6 +92,7 @@ Resources:
       InstanceType: t2.micro
       KeyName: AWS-default-key
       SubnetId: !Ref mySubnetA
+      IamInstanceProfile: !Ref RootInstanceProfile
       SecurityGroupIds:
         - !Ref WebAppSecurityGroup
       UserData:
@@ -110,6 +111,7 @@ Resources:
       InstanceType: t2.micro
       KeyName: AWS-default-key
       SubnetId: !Ref mySubnetB
+      IamInstanceProfile: !Ref RootInstanceProfile
       SecurityGroupIds:
         - !Ref WebAppSecurityGroup
       UserData:
@@ -185,7 +187,6 @@ Resources:
           ToPort: 80
           CidrIp: 0.0.0.0/0
 
-
 # Create Target Groups for the Load Balancer
   DefaultTargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
@@ -199,6 +200,88 @@ Resources:
           Port: 80
         - Id: !Ref WebAppInstanceB
           Port: 80
+
+# Create S3 IAM Role for EC2 Instances
+  RootInstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Path: /
+      Roles:
+        - !Ref S3WritableRole
+
+  S3WritableRole:
+     Type: AWS::IAM::Role
+     Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ec2.amazonaws.com
+            Action: sts:AssumeRole
+      Path: /
+
+  RolePolicies:
+    Type: AWS::IAM::Policy
+    DependsOn:
+      - WebAppInstanceA
+      - WebAppInstanceB
+    Properties:
+      PolicyName: EC2InstancePolicy
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action: 's3:*'
+            Resource: '*'
+      Roles:
+        - !Ref S3WritableRole
+
+
+# Create S3 Bucket
+  s3bucket:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName: s3bucket-aputiatov
+      AccessControl: PublicRead
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: false
+        BlockPublicPolicy: false
+        IgnorePublicAcls: false
+        RestrictPublicBuckets: false
+#
+#  MyS3BucketPolicy:
+#    Type: AWS::S3::BucketPolicy
+#    Properties:
+#      Bucket: !Ref MyS3Bucket
+#      PolicyDocument:
+#        Statement:
+#          -
+#            Action:
+#              - s3:*
+#            Effect: Allow
+#            Resource:
+#              - !Sub arn:aws:s3:::${MyS3Bucket}
+#              - !Sub arn:aws:s3:::${MyS3Bucket}/*
+#            Principal:
+#              AWS:
+#                - '*'
+
+# Create S3 Endpoint
+  S3Endpoint:
+    Type: "AWS::EC2::VPCEndpoint"
+    Properties:
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal: '*'
+            Action: 's3:*'
+            Resource: '*'
+      RouteTableIds:
+         - !Ref myRouteTable
+      ServiceName: !Sub 'com.amazonaws.${AWS::Region}.s3'
+      VpcId: !Ref myVPC
 
 # Outputs
 Outputs:
@@ -221,12 +304,16 @@ Outputs:
     Description: A reference to a port 80 listener
     Value: !Ref LoadBalancerListener
 
+  Endpoint:
+    Description: 'The VPC endpoint to S3.'
+    Value: !Ref S3Endpoint
 
-# Create VPC
-# Create CIDR
-# Create 2 Subnets
-# Create Internet Gateway
-# Create Routing Table
-# Create Security Groups
-# Create Network ACLs
-# Create EC2
+
+
+
+# Create Bastion Host
+# Create IAM Role for S3
+# Create Access Gateway
+# Change nginx config file to proxy
+# Create NAT gateway
+# Setup ssh agent for access to the
