@@ -20,7 +20,9 @@
 
 
 ## Name
-Homework 7. IAAC. Terraform
+Homework 7. IaaC. Terraform
 
 ## Description
 To be done
+
+## Possible improvements
