@@ -175,6 +175,7 @@ Resources:
           CidrIp: 0.0.0.0/0
 
 # Create Security Group for Load Balancer
+  ############## Duplicated ingress rule
   LoadBalancerSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -256,8 +257,8 @@ Resources:
   RolePolicies:
     Type: AWS::IAM::Policy
     DependsOn:
-      - WebAppInstanceA
-      - WebAppInstanceB
+      - PrivateWebAppInstanceA
+      - PrivateWebAppInstanceB
     Properties:
       PolicyName: EC2InstancePolicy
       PolicyDocument:
@@ -270,7 +271,7 @@ Resources:
         - !Ref S3WritableRole
 
 ########################################
-#### Create S3 IAM Role for EC2 Instances
+#### Create S3 Bucket
 ########################################
 # Create S3 Bucket
   S3Bucket:
@@ -340,6 +341,7 @@ Resources:
   natGateway:
     Type: AWS::EC2::NatGateway
     Properties:
+      ConnectivityType: public
       AllocationId:
         Fn::GetAtt:
           - EIP

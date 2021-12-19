@@ -1,3 +1,6 @@
 .idea
 .idea/*
-
+.terraform.*
+terraform.tfstate
+terraform.tfstate.*
+homework7/.terraform
