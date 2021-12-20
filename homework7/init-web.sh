@@ -6,6 +6,7 @@ yum update -y
 # Install and start ngnix
 amazon-linux-extras install -y nginx1
 systemctl start nginx
+systemctl enable nginx
 
 # Install Tools
 yum install -y lynx

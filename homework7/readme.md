@@ -26,3 +26,6 @@ Homework 7. IaaC. Terraform
 To be done
 
 ## Possible improvements
+- Configure SSH agent to login to web servers via Bastion host
+  https://towardsdatascience.com/connecting-to-an-ec2-instance-in-a-private-subnet-on-aws-38a3b86f58fb#:~:text=Connecting%20to%20a%20private%20subnet,use%20SSH%20keys%20for%20authentication.
+- Define Modules

@@ -1,0 +1,9 @@
+# Define variables
+variable cidr_blocks {}
+variable public_subnets_cidr_blocks {}
+variable private_subnets_cidr_blocks {}
+variable avail_zone {}
+variable env_prefix {}
+variable instance_type {}
+variable keyname {}
+variable aws_region {}
