@@ -21,3 +21,26 @@ Optionally you cat specify tag name and tag value as a filter
 - asw cli installed
 - aws credentials configured
 
+## Terraform template
+You can use terraform template to create a EBS Volume and a set (3 by default) of its's snapshots.
+
+```
+ Terraform init
+```
+To check what will be created:
+```
+ terraform plan
+```
+To create:
+```
+ terraform apply [--auto-approve ]
+```
+To destroy:
+```
+ terraform destroy [--auto-approve ]
+```
+
+If you need more snapshots, created after particular period of time you should create them manually from AWS console
+
+## Possible emprovements
+- Alter script to create several snaps in a perticular period of time one by one

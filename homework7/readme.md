@@ -40,7 +40,7 @@ Terraform template to rolling out the following infrastructure in AWS:
 
 ## Prerequisities
 - Terraform installed.
-- AWS CLI installed with the AWS Cloud ccess configured.
+- AWS CLI installed with the AWS Cloud access configured.
 
 ## Configuration parameters (terraform.tfvars file)
 | File | Description | Default value |
