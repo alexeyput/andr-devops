@@ -86,7 +86,7 @@ sudo ./gethw-install.sh
 /help - get help message
 ```
 ## Known bugs
-Script check HW folders consequently, i.e homework1,homework2,etc. script stops checking URLs after the first gap in sequence.  
+Script check HW folders consequently, i.e. homework1,homework2,etc. script stops checking URLs after the first gap in sequence.  
 
 ## Possible improvements
 - Remove bugs

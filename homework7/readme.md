@@ -30,8 +30,8 @@ Terraform template to rolling out the following infrastructure in AWS:
 - EC2 instance in a private subnet as a Bastion host. The aim is to get an ssh access to EC2 instances in private subnets
 - NAT Gateway as the Internet access point for the Web-servers (OS updates, etc.)
 - Internet gateway for public networks
-- S3 Bucket for backup purposes (Web-servers copy their sites data to S3).
-- VPC endpoint to transred to the S3 through the AWS Backbone Network
+- S3 Bucket for backup purposes (Web-servers copy their sites' data to S3).
+- VPC endpoint to transferred to the S3 through the AWS Backbone Network
 - IAM Role is created to access the Web-servers to the S3
 - Application Load Balancer to balance workload between the Web-servers
 
@@ -55,7 +55,7 @@ Terraform template to rolling out the following infrastructure in AWS:
 | keyname | ssh keys | "AWS-default-key"                                                             |
 
 ## Usage
-Initialise terraform providers
+Initialize terraform providers
 ```
    terraform plan
 ```
@@ -67,7 +67,7 @@ To perform infrastructure creation
 ```
    terraform apply [-auto-approve]
 ```
-To delete createn infrastructure.
+To delete created infrastructure.
 ##### NOTE. S3 Bucket will not be deleted in case of having stored objects. Please check and delete manually if it necessary.
 ```
    terraform destroy [-auto-approve]

@@ -7,7 +7,7 @@ _**To Create python3+flask application and deploy it using ansible.**_
 ## Description
 Sample web page which shows your IP address, Hostname and OS
 
-## Prerequisities (for Debian 10. May vary for your debian-based linux distro)
+## Prerequisites (for Debian 10. May vary for your debian-based linux distro)
 - Generate and copy keys with  
 `ssh-keygen`  
 `ssh-copy-id`
@@ -30,7 +30,7 @@ Adjust configuration parameters in group_vars/debian10_server.yaml file:
 | web_group_name   | Linux group name used to start the application |
 | flask_port       | TCP port used to access the application |
 
-## Installatioin
+## Installation
 To deploy application run on Ansible Master Node
 
 `

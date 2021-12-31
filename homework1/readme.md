@@ -50,7 +50,7 @@
 ## 07.12.2021
 ###### AWS:
 - VPC
-- CIDR, Subnets, Internet Gatewey
+- CIDR, Subnets, Internet Gateway
 - EC2
 - Cloudformation
 ## 08.12.2021
