@@ -2,18 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2831a300-2aaf-4c34-b9f7-9a0438047b11" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/homework7/loadbalancer.tf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/homework7/secgroups.tf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/homework7/variables.tf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/homework7/enstances.tf" beforeDir="false" afterPath="$PROJECT_DIR$/homework7/instances.tf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/homework7/init-web.sh" beforeDir="false" afterPath="$PROJECT_DIR$/homework7/init-web.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/homework7/main.tf" beforeDir="false" afterPath="$PROJECT_DIR$/homework7/main.tf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/homework1/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/homework1/readme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/homework3/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/homework3/readme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/homework4/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/homework4/readme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/homework5/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/homework5/readme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/homework6/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/homework6/readme.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/homework7/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/homework7/readme.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/homework7/s3.tf" beforeDir="false" afterPath="$PROJECT_DIR$/homework7/outputs.tf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/homework7/sec_groups.tf" beforeDir="false" afterPath="$PROJECT_DIR$/homework7/providers.tf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/homework7/subnets.tf" beforeDir="false" afterPath="$PROJECT_DIR$/homework7/subnets.tf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/homework7/vpc.tf" beforeDir="false" afterPath="$PROJECT_DIR$/homework7/routetables.tf" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,7 +36,7 @@
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/homework7" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">

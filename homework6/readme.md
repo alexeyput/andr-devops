@@ -1,4 +1,4 @@
-# Andersen DevOps Training 
+# Andersen DevOps online course 11-12.2021
 
 ## Homework 6
 ### Опциональная домашка :

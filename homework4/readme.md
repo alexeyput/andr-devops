@@ -1,4 +1,4 @@
-# Andersen DevOps Training 
+# Andersen DevOps online course 11-12.2021
 
 ## Homework 4
 Написать функционирующего телеграмм бота на языке GO имеющего минимум 3 команды:

@@ -1,4 +1,4 @@
-# What I've learnt today.
+# Andersen DevOps online course 11-12.2021
 
 ## 17.11.2021
 ###### Github:

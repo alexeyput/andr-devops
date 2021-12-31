@@ -1,4 +1,4 @@
-# Andersen DevOps Training 
+# Andersen DevOps online course 11-12.2021
 ## Homework 3
 Преобразовать следующий однострочник в красивый скрипт:  
 `sudo netstat -tunapl | awk '/firefox/ {print $5}' | cut -d: -f1 | sort | uniq -c |
