@@ -55,6 +55,10 @@ Terraform template to rolling out the following infrastructure in AWS:
 | keyname | ssh keys | "AWS-default-key"                                                             |
 
 ## Usage
+Initialise terraform providers
+```
+   terraform plan
+```
 To create plan and simulate infrastructure creation
 ```
    terraform plan
