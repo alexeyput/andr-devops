@@ -56,12 +56,17 @@ Terraform template to rolling out the following infrastructure in AWS:
 
 ## Usage
 #### To create plan and simulate infrastructure creation
+```
    terraform plan
+```
 #### To perform infrastructure creation
+```
    terraform apply [-auto-approve]
-#### To delete createn infrastructure. NOTE. S3 Bucket eill not be deleted in case of having stored objects. Please check and delete manually if it necessary.
+```
+#### To delete createn infrastructure. NOTE. S3 Bucket will not be deleted in case of having stored objects. Please check and delete manually if it necessary.
+```
    terraform destroy [-auto-approve]
-
+```
 
 ## Possible improvements
 - Configure SSH agent to login to web servers via Bastion host
