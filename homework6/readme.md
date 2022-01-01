@@ -44,7 +44,9 @@ AWS Cloud template to rolling out the following infrastructure in AWS:
 - AWS CLI installed with the AWS Cloud access configured.
 
 ## Usage
-Use either AWS Cloudformation Console to create an infrastructure or a bash script
+Use either AWS Cloudformation Console to create an infrastructure or a bash script.    
+##### Script usage:
+- To create infrastructure:
 ```
   deploy.sh <cloudformation-template.yaml> <stack_name> <environment>
 ``` 
@@ -54,7 +56,14 @@ Use either AWS Cloudformation Console to create an infrastructure or a bash scri
 | stack_name                   | Name of the Cloudformation stack to be created |
 | environment                  | Environment type (dev, prod, etc.)             | 
 
-
+- To Destroy infrastructure:
+```
+  deploy.sh destroy <stack_name> 
+``` 
+| Parameter             | Description                                    |
+|-----------------------|------------------------------------------------|
+| destroy               | key that the environment must be destroyed     |
+| stack_name            | Name of the Cloudformation stack to be created |
 
 ## Possible improvements
 - Configure SSH agent to login to web servers via the Bastion host.

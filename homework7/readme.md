@@ -43,16 +43,16 @@ Terraform template to rolling out the following infrastructure in AWS:
 - AWS CLI installed with the AWS Cloud access configured.
 
 ## Configuration parameters (terraform.tfvars file)
-| File | Description | Default value |
-| --- | --- | --- |
-| cidr_blocks | VPC CIDR Block | "10.0.0.0/16"  |
-| public_subnets_cidr_blocks | Private subnets A and B CIDR Blocks | ["10.0.41.0/24","10.0.42.0/24"] |
-| private_subnets_cidr_blocks | Public subnets A and B CIDR Blocks | ["10.0.51.0/24","10.0.52.0/24"] |
-| avail_zone | Availability Sones A and B | ["eu-central-1a", "eu-central-1b"]                       |
-| aws_region | AWS Region | "eu-central-1"                                                           |
-| env_prefix | Environment | "dev"                                                                   |
-| instance_type | EC2 Instances  type | "t2.micro"                                                   |
-| keyname | ssh keys | "AWS-default-key"                                                             |
+| Variable                    | Description                         | Default value                      |
+|-----------------------------|-------------------------------------|------------------------------------|
+| cidr_blocks                 | VPC CIDR Block                      | "10.0.0.0/16"                      |
+| public_subnets_cidr_blocks  | Private subnets A and B CIDR Blocks | ["10.0.41.0/24","10.0.42.0/24"]    |
+| private_subnets_cidr_blocks | Public subnets A and B CIDR Blocks  | ["10.0.51.0/24","10.0.52.0/24"]    |
+| avail_zone                  | Availability Sones A and B          | ["eu-central-1a", "eu-central-1b"] |
+| aws_region                  | AWS Region                          | "eu-central-1"                     |
+| env_prefix                  | Environment                         | "dev"                              |
+| instance_type               | EC2 Instances  type                 | "t2.micro"                         |
+| keyname                     | ssh keys                            | "AWS-default-key"                  |
 
 ## Usage
 Initialize terraform providers
