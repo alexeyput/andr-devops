@@ -22,7 +22,7 @@ Optionally you cat specify tag name and tag value as a filter
 - aws credentials configured
 
 ## Terraform template
-You can use terraform template to create a EBS Volume and a set (3 by default) of its's snapshots.
+You can use terraform template to create an EBS Volume and a set (3 by default) of it's snapshots.
 
 ```
  Terraform init
@@ -42,5 +42,5 @@ To destroy:
 
 If you need more snapshots, created after particular period of time you should create them manually from AWS console
 
-## Possible emprovements
-- Alter script to create several snaps in a perticular period of time one by one
+## Possible improvements
+- Alter script to create several snaps in a particular period of time one by one
