@@ -60,3 +60,4 @@ Use either AWS Cloudformation Console to create an infrastructure or a bash scri
 - Configure SSH agent to login to web servers via the Bastion host.
 [How to Connecting to an ec2 instance in a private subnet on AWS](https://towardsdatascience.com/connecting-to-an-ec2-instance-in-a-private-subnet-on-aws-38a3b86f58fb#:~:text=Connecting%20to%20a%20private%20subnet,use%20SSH%20keys%20for%20authentication.)
 - Env variable is hardcoded. Change the script to have the possibility to override other default parameters.
+- Create more sophisticated script witch checking input parameters
