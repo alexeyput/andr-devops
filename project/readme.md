@@ -1,9 +1,9 @@
-# Andersen DevOps online training 11-12.2021
+## Andersen DevOps online training 11-12.2021
 
 # Project was moved to GitLab
-### [Link]   (https://gitlab.com/alex.put/andr-project)
+### https://gitlab.com/alex.put/andr-project
 
 
-## Final project
+#### Final project
 ![Task](https://github.com/alexeyput/andr-devops/blob/main/project/images/task.png?raw=true)
 
