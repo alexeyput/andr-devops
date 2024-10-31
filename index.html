@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <script src="https://kit.fontawesome.com/c256aed61d.js" crossorigin="anonymous"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Магазин по продаже мототехники «Kickstarter.io»</title>
+</head>
+<body>
+  <header>
+    <span class="theme-toggler" id="toggle">
+      🌓
+    </span>
+    <nav>
+      <ul class="container nav">
+        <li>
+          <a href="#" class="logo">Kickstarter.by</a>
+        </li>
+        <li>
+          <a href="#shop-items">Каталог</a>
+        </li>
+        <li>
+          <a href="#contacts">Контакты</a>
+        </li>
+        <li>
+          <div class="site-search">
+            <input type="search" id="search-input">
+            <button type="button" id="search-btn" class="fa fa-search"></i>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </header>
+  <main class="container">
+    <div class="filters">
+      <div class="filters-sort">
+        <label for="sort">Сортировка:</label>
+        <select name="sort" id="sort">
+          <option selected value="alphabet">По алфавиту</option>
+          <option value="expensive">Сначала дорогие</option>
+          <option value="cheap">Сначала дешевые</option>
+          <option value="rating">Рейтинг</option>
+        </select>
+      </div>
+    </div>
+    <section id="shop-items">
+    </section>
+    <p id="nothing-found">Ничего не найдено</p>
+  </main>
+  <footer id="contacts" class="container">
+    <a href="#" class="logo">Kickstarter.by</a>
+      <ul class="contacts">
+          <li class="contacts__item">
+              <a href="tel:+11234567890" class="contacts__link">+1 123 456 78 90</a>
+          </li>
+          <li class="contacts__item">
+              <a href="mailto:kickstarter@gmail.com" class="contacts__link">kickstarter@gmail.com</a>
+          </li>
+          <li class="contacts__item">
+              <a href="https://www.google.com/maps/place/Minsk,+Minsk+Region,+Belarus/@53.9089815,27.5297188,14579m/data=!3m1!1e3!4m15!1m8!3m7!1s0x46dbcfd35b1e6ad3:0xb61b853ddb570d9!2sMinsk,+Minsk+Region,+Belarus!3b1!8m2!3d53.9006011!4d27.558972!16zL20vMGRseGo!3m5!1s0x46dbcfd35b1e6ad3:0xb61b853ddb570d9!8m2!3d53.9006011!4d27.558972!16zL20vMGRseGo?entry=ttu&g_ep=EgoyMDI0MTAyNy4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="contacts__link">Минск</a>
+          </li>
+      </ul>
+      <div class="social-links">
+          <a href="https://www.facebook.com/" class="social-links__item">
+              <i class="fa-brands fa-facebook-f"></i>
+          </a>
+          <a href="https://x.com/" class="social-links__item">
+              <i class="fa-brands fa-twitter"></i>
+          </a>
+          <a href="https://www.instagram.com/" class="social-links__item">
+              <i class="fa-brands fa-instagram"></i>
+          </a>
+      </div>
+      <a href="#top" class="back-to-top">
+          <i class="fa-solid fa-circle-chevron-up"></i>
+      </a>
+  </footer>
+  <template id="item-template">
+    <div class="shop-item">
+      <img src="">
+      <div class="content">
+        <div class="tags"></div>
+        <h1></h1>
+        <p></p>
+      </div>
+      <div class="back"></div>
+      <div class="footer">
+        <span class="price"></span>
+        <div class="rating"></div>
+      </div>
+    </div>
+    </div>
+  </template>
+  <script src="script.js"></script>
+</body>
+</html>
